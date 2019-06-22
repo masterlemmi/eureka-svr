@@ -1,0 +1,16 @@
+language: java
+install:
+  - git clone https://github.com/masterlemmi/commons.git
+  - ./commons/gradlew build publishToMavenLocal -p commons
+
+jdk:
+  - oraclejdk8
+
+services:
+  - docker
+
+script:
+  - ./gradlew build
+  - docker build -t $DOCKER_UN/devtools-svc .
+  - echo "$DOCKER_PW" | docker login -u "$DOCKER_UN" --password-stdin
+  - docker push $DOCKER_UN/devtools-svc
