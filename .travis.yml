@@ -4,13 +4,11 @@ install:
   - ./commons/gradlew build publishToMavenLocal -p commons
 
 jdk:
-  - oraclejdk8
+  - oraclejdk11
 
 services:
   - docker
 
 script:
   - ./gradlew build
-  - docker build -t $DOCKER_UN/devtools-svc .
-  - echo "$DOCKER_PW" | docker login -u "$DOCKER_UN" --password-stdin
-  - docker push $DOCKER_UN/devtools-svc
+  - ./docker-travis.sh
